@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="./Index.css">
+	<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet"> -->
+	<script src="https://kit.fontawesome.com/6066e589cc.js" crossorigin="anonymous"></script>
+	<title>Quotes-Generator</title>
+</head>
+
+<body>
+
+	<div id="box" class="z-depth-2 grey lighten-4">
+		<!-- <div id="quotes"></div>
+		<div id="author"></div>
+		<button id="next">Generate</button>
+		<button id="tweet">Tweet It</button> -->
+
+		<i class="fas fa-quote-left"></i>
+
+		<div class="inner">
+			<div id="quotes"></div>
+
+			<div id="author"></div>
+		</div>
+
+
+
+
+
+		<div class="options center-align ">
+			<div class="row ">
+				<div class="col l6 xd"><button id="next" class="btn black waves-effect waves-light">Next Quote</button></div>
+				<div class="col l6 xd"><button id="tweet" class="btn black waves-effect waves-light">Tweet It</button></div>
+			</div>
+
+
+		</div>
+
+
+
+	</div>
+
+	<!--JavaScript at end of body for optimized loading-->
+	<script>
+		const quotes = document.getElementById("quotes");
+		const author = document.getElementById("author");
+		const next = document.getElementById("next");
+		const tweet = document.getElementById("tweet");
+		let realData = " ";
+		let quotesData = " ";
+
+		const TweetIt = () => {
+			let link =
+				`https://twitter.com/intent/tweet/?text=${quotesData.text}`;
+			window.open(link);
+		}
+
+
+		const getNewQuotes = () => {
+			let rnum = Math.floor(Math.random() * 1642);
+			quotesData = realData[rnum];
+			//console.log(rnum);
+			//console.log(realData);
+			quotes.innerText = `${quotesData.text}`;
+			quotesData.author == null ? author.innerText = `Anonymous` : author.innerText = `${quotesData.author}`;
+
+
+		};
+
+
+		const getQuotes = async () => {
+			const api = 'https://type.fit/api/quotes';
+			try {
+				let data = await fetch(api);
+				realData = await data.json();
+				//console.log(realData[0]);
+				getNewQuotes();
+			} catch (error) {}
+		};
+
+
+		tweet.addEventListener("click", TweetIt);
+		next.addEventListener("click", getNewQuotes);
+		getQuotes();
+	</script>
+</body>
+
+</html>
